@@ -43,12 +43,12 @@
 <script>
 (async function() {
   try {
-    // Fetch main counter
+    // Fetch main counter for fc-band-n-orch file
     const counterRes = await fetch("https://api.counterapi.dev/v2/downloadtracker/fc-band-n-orch");
     const counterData = await counterRes.json();
     const totalDownloads = counterData.data.up_count / 2;
 
-    // Fetch stats
+    // Fetch stats for fc-band-n-orch file
     const statsRes = await fetch("https://api.counterapi.dev/v2/downloadtracker/fc-band-n-orch/stats");
     const statsData = await statsRes.json();
     const todayDownloads = statsData.data.stats.today.up / 2;
