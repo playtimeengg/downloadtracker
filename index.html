@@ -28,48 +28,42 @@
     padding: 20px 40px;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  }
-  p {
-    margin: 10px 0;
+    line-height: 1.6em;
   }
 </style>
 </head>
 <body>
 
 <h1>Playtime Engineering Pack Download Stats</h1>
-<div class="stats">
-  <p id="mainCount">Loading...</p>
-  <p id="today"></p>
-  <p id="week"></p>
+
+<div class="stats" id="statsBox">
+  <p>Loading...</p>
 </div>
 
 <script>
 (async function() {
   try {
-    // --- Fetch main counter ---
+    // Fetch main counter
     const counterRes = await fetch("https://api.counterapi.dev/v2/downloadtracker/fc-band-n-orch");
     const counterData = await counterRes.json();
-    const upCount = counterData.data.up_count;
-    const finalResult = upCount / 2;
+    const totalDownloads = counterData.data.up_count / 2;
 
-    // --- Fetch stats ---
+    // Fetch stats
     const statsRes = await fetch("https://api.counterapi.dev/v2/downloadtracker/fc-band-n-orch/stats");
     const statsData = await statsRes.json();
     const todayDownloads = statsData.data.stats.today.up / 2;
     const weeklyDownloads = statsData.data.stats.this_week.up / 2;
 
-    // --- Display values ---
-    document.getElementById("mainCount").textContent =
-      `Band and Orch downloaded: ${finalResult} times`;
-
-    document.getElementById("today").textContent =
-      `Today's downloads: ${todayDownloads}`;
-
-    document.getElementById("week").textContent =
-      `This week's downloads: ${weeklyDownloads}`;
+    // Display in the desired format
+    document.getElementById("statsBox").innerHTML = `
+      <strong>Band and Orch Downloads:</strong><br><br>
+      Total: ${totalDownloads}<br>
+      Today's downloads: ${todayDownloads}<br>
+      This week's downloads: ${weeklyDownloads}
+    `;
   } catch (err) {
     console.error("Error fetching stats:", err);
-    document.getElementById("mainCount").textContent = "Error loading stats.";
+    document.getElementById("statsBox").textContent = "Error loading stats.";
   }
 })();
 </script>
